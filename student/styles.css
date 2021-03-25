@@ -17,4 +17,18 @@ th, tr {
     font-weight: bold;
 }
 
+.present {
+    color: gray;
+    font-style: italic;
+}
+
+.absent {
+    color: black;
+    font-weight: bold;
+}
+
+[v-cloak] {
+    display: none;
+}
+
 
