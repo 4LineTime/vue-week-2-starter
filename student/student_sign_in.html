@@ -21,8 +21,8 @@
 
             <div class="form-group">
                 <label for="name">Name</label>
-                <!-- TODO v-model newStudentName -->
-                <input id="name" class="form-control">
+                
+                <input id="name" class="form-control" v->
             </div>
             <div class="form-group">
                 <label for="starID">Star ID</label>
@@ -47,6 +47,11 @@
                    Each row will have a checkbox, bound to the app's data 
                    When the checkbox is checked/unchecked, the student will be signed in/out -->
 
+                    <tr v-for="student in students">
+                        <td>{{student.name}}</td>
+                        <td>{{student.starID}}</td>
+                        
+
                 </table>
             </div>
         </div>
@@ -60,8 +65,21 @@
     <script>
 
 
-        // TODO Vue app     
+        let app = Vue.createApp({
+            data() {
+                return {
+                    newStudentName: '',
+                    newStarID: '',
+                    students: [
+                        { name: 'A. Student', starID:  'aa123', present: false },
+                        { name: 'B. Student', starID:  'bb123', present: false },
+                        { name: 'C. Student', starID:  'cc123', present: false },
+                    ]
+                }
+            }
+        })  
 
+        app.mount('#app')
 
     </script>
 
