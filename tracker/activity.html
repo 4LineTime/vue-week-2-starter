@@ -60,18 +60,29 @@
                 <div class="form-label pb-2">
                     What media?
                 </div>
-
-                <div class="form-check-inline">
+                
+                <div class="form-group">
                     <!-- TODO v-model media -->
                     <input id="media1" class="form-check-input" type="radio" value="Traditional" v-model="medium">
                     <label class="form-check-label" for="media1">Traditional</label>
                 </div>
-
-                <div class="form-check-inline">
+                <div class = "form-group">
                     <!-- TODO v-model media -->
                     <input id="media2" class="form-check-input" type="radio" value="Digital" v-model="medium">
                     <label class="form-check-label" for="media2">Digital</label>
                 </div>
+
+                <div class="form-group">
+                    <input id="completed-check" class="form-check-input" type="checkbox" value="true" v-model="completed">
+                    <label class="form-check-label" for="completed-check">Completed</label>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="form-check-label" for="note-input">Notes</label>
+                    <input id="note-input" class="form-control" v-model="note">
+                </div>
+
 
                 <div>
                     <!-- TODO Add v-on:click -->
@@ -95,13 +106,17 @@
                             <th>How many hours?</th>
                             <th>Type</th>
                             <th>Media</th>
+                            <th>Completed</th>
+                            <th>Notes</th>
                         </tr>
                         <!-- TODO use v-for to create one table row for each activity record -->
-                        <tr v-for="record in activityRecords">
+                        <tr v-for="record in activityRecords" v-bind:class="{ drawing: record.type === 'Drawing', sketching: record.type === 'Sketching', painting: record.type === 'Painting'}">
                             <td>{{ shortDate(record.date) }}</td>
                             <td>{{ record.hours }}</td>
                             <td>{{ record.type }}</td>
                             <td>{{ record.medium }}</td>
+                            <td>{{ convertCompleted(record.completed) }}</td>
+                            <td>{{ shortNote(record.note) }}</td>
                     </table>
                 </div>
             </div>
@@ -135,6 +150,8 @@
                 medium: 'Traditional',
                 type: 'sketching',
                 types: ['Sketching', 'Drawing', 'Painting'],
+                completed: false,
+                note: '',
 
                 errors: [],
             }
@@ -168,7 +185,9 @@
                         date: date,
                         hours: this.hours,
                         type: this.type,
-                        medium: this.medium
+                        medium: this.medium,
+                        completed: this.completed,
+                        note: this.note
                     }
 
                     this.activityRecords.push(record)
@@ -180,6 +199,21 @@
             },
             shortDate(date) {
                 return new Intl.DateTimeFormat('en-US', {timeZone: 'UTC'}).format(date)
+            },
+            shortNote(note) {
+                let length = 40
+                if (note.length <= length) {
+                    return note
+                } else {
+                    return (note.slice(0, length) + '...')
+                }
+            },
+            convertCompleted(check) {
+                if (check === true) {
+                    return "Completed";
+                } else {
+                    return "Not Completed"
+                }
             }
         },
         computed: {
